@@ -6,7 +6,7 @@
 /*   By: ysabr <ysabr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:08:06 by ysabr             #+#    #+#             */
-/*   Updated: 2023/06/11 16:54:50 by ysabr            ###   ########.fr       */
+/*   Updated: 2023/06/14 11:54:14 by ysabr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,27 @@ void    process_tokens(char *line, t_command **lexer)
             {
                 if (!token)
                     token = create_token(line[i], '\0');
+                else if (line[i] == '\'' || line[i] == '"')
+                {
+                    char quote = line[i];
+                    i++;
+                    while(line[i] && line[i] != quote)
+                    {
+                        token->content = add_char(token->content, line[i]);
+                        i++;
+                    }
+                    if (line[i] == quote)
+                        i++;
+                }
                 else
                     token->content = add_char(token->content, line[i]);
                 i++;
             }
+            //token->content = expand_variable(token->content);
             if (token)
                 token->type = TOKEN_STRING;
         }
-        else
+        else if (line[i] == ' ' || line[i] == '\t')
             i++;
         if (token)
         {

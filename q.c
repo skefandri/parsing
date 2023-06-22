@@ -1,5 +1,3 @@
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -62,215 +60,164 @@ typedef struct s_process
     struct s_process *next;
 } t_process;
 
-t_data	*ft_lstnew_data(t_file *file_name, t_cmd *cmd)
-{
-	t_data	*new;
 
-	new = malloc(sizeof(t_data));
-	if (!new)
-		return (NULL);
-	new->cmd = cmd;
+t_data    *ft_lstnew_data(t_file *file_name, t_cmd *cmd)
+{
+    t_data    *new;
+
+    new = malloc(sizeof(t_data));
+    if (!new)
+        return (NULL);
+    new->cmd = cmd;
     new->file = file_name;
-	new->next = NULL;
-	return (new);
-}
-void	ft_lstadd_back_data(t_data **lst, t_data *new)
-{
-	t_data	*ptr;
-
-	if (!lst)
-		return ;
-	if (!(*lst))
-	{
-		*lst = new;
-		return ;
-	}
-	ptr = *lst;
-	while (ptr->next)
-	{
-		ptr = ptr->next;
-	}
-	ptr->next = new;
+    new->next = NULL;
+    return (new);
 }
 
-t_file	*ft_lstnew_file(char *file_name, int type)
+void    ft_lstadd_back_data(t_data **lst, t_data *new)
 {
-	t_file	*new;
+    t_data    *ptr;
 
-	new = malloc(sizeof(t_file));
-	if (!new)
-		return (NULL);
+    if (!lst)
+        return ;
+    if (!(*lst))
+    {
+        *lst = new;
+        return ;
+    }
+    ptr = *lst;
+    while (ptr->next)
+    {
+        ptr = ptr->next;
+    }
+    ptr->next = new;
+}
+
+t_file    *ft_lstnew_file(char *file_name, int type)
+{
+    t_file    *new;
+
+    new = malloc(sizeof(t_file));
+    if (!new)
+        return (NULL);
     new->filename = file_name;
     new->type = type;
-	new->next = NULL;
-	return (new);
-}
-void	ft_lstadd_back_file(t_file **lst, t_file *new)
-{
-	t_file	*ptr;
-
-	if (!lst)
-		return ;
-	if (!(*lst))
-	{
-		*lst = new;
-		return ;
-	}
-	ptr = *lst;
-	while (ptr->next)
-	{
-		ptr = ptr->next;
-	}
-	ptr->next = new;
+    new->next = NULL;
+    return (new);
 }
 
-t_cmd	*ft_lstnew_cmd(char *cmd)
+void    ft_lstadd_back_file(t_file **lst, t_file *new)
 {
-	t_cmd	*new;
+    t_file    *ptr;
 
-	new = malloc(sizeof(t_cmd));
-	if (!new)
-		return (NULL);
+    if (!lst)
+        return ;
+    if (!(*lst))
+    {
+        *lst = new;
+        return ;
+    }
+    ptr = *lst;
+    while (ptr->next)
+    {
+        ptr = ptr->next;
+    }
+    ptr->next = new;
+}
+
+t_cmd    *ft_lstnew_cmd(char *cmd)
+{
+    t_cmd    *new;
+
+    new = malloc(sizeof(t_cmd));
+    if (!new)
+        return (NULL);
     new->cmd = cmd;
-	new->next = NULL;
-	return (new);
-}
-void	ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new)
-{
-	t_cmd	*ptr;
-
-	if (!lst)
-		return ;
-	if (!(*lst))
-	{
-		*lst = new;
-		return ;
-	}
-	ptr = *lst;
-	while (ptr->next)
-	{
-		ptr = ptr->next;
-	}
-	ptr->next = new;
+    new->next = NULL;
+    return (new);
 }
 
-/* this is the exp */
-t_command	*ft_lstnew(t_token *content)
+void    ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new)
 {
-	t_command	*new;
+    t_cmd    *ptr;
 
-	new = malloc(sizeof(t_command));
-	if (!new)
-		return (NULL);
-	new->content = content;
-	new->next = NULL;
-	return (new);
+    if (!lst)
+        return ;
+    if (!(*lst))
+    {
+        *lst = new;
+        return ;
+    }
+    ptr = *lst;
+    while (ptr->next)
+    {
+        ptr = ptr->next;
+    }
+    ptr->next = new;
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+t_command    *ft_lstnew(t_token *content)
 {
-	size_t	i;
-	size_t	j;
-	char	*ptr;
+    t_command    *new;
 
-	i = 0;
-	j = 0;
-	if (!s1 || !s2)
-		return (NULL);
-	ptr = malloc (((strlen(s1) + strlen(s2)) + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	while (s1[i])
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		ptr[i + j] = s2[j];
-		j++;
-	}
-	ptr[i + j] = '\0';
-	return (ptr);
+    new = malloc(sizeof(t_command));
+    if (!new)
+        return (NULL);
+    new->content = content;
+    new->next = NULL;
+    return (new);
 }
 
-t_process	*new_lstnew(void *content)
+t_process    *new_lstnew(void *content)
 {
-	t_process	*new;
+    t_process    *new;
 
-	new = malloc(sizeof(t_process));
-	if (!new)
-		return (NULL);
-	new->content = content;
+    new = malloc(sizeof(t_process));
+    if (!new)
+        return (NULL);
+    new->content = content;
     new->line = NULL;
     new->cmd = NULL;
-	new->next = NULL;
-	return (new);
+    new->next = NULL;
+    return (new);
 }
 
-void	ft_lstadd_back(t_command **lst, t_command *new)
+void    red_lstadd_back(t_process **lst, t_process *new)
 {
-	t_command	*ptr;
+    t_process    *ptr;
 
-	if (!lst)
-		return ;
-	if (!(*lst))
-	{
-		*lst = new;
-		return ;
-	}
-	ptr = *lst;
-	while (ptr->next)
-	{
-		ptr = ptr->next;
-	}
-	ptr->next = new;
+    if (!lst)
+        return ;
+    if (!(*lst))
+    {
+        *lst = new;
+        return ;
+    }
+    ptr = *lst;
+    while (ptr->next)
+    {
+        ptr = ptr->next;
+    }
+    ptr->next = new;
 }
 
-
-void	red_lstadd_back(t_process **lst, t_process *new)
+void    ft_lstadd_back(t_command **lst, t_command *new)
 {
-	t_process	*ptr;
+    t_command    *ptr;
 
-	if (!lst)
-		return ;
-	if (!(*lst))
-	{
-		*lst = new;
-		return ;
-	}
-	ptr = *lst;
-	while (ptr->next)
-	{
-		ptr = ptr->next;
-	}
-	ptr->next = new;
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	unsigned int	i;
-	char			*ptr;
-
-	if (!s)
-		return (0);
-	i = strlen(s);
-	if (len == 0 || start > i)
-		return (strdup(""));
-	if (len > i - start)
-		len = i - start;
-	ptr = malloc ((len + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (s[i] && (len > 0))
-	{
-		ptr[i] = s[i + start];
-		i++;
-		len--;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+    if (!lst)
+        return ;
+    if (!(*lst))
+    {
+        *lst = new;
+        return ;
+    }
+    ptr = *lst;
+    while (ptr->next)
+    {
+        ptr = ptr->next;
+    }
+    ptr->next = new;
 }
 
 char *add_char(char *str, char c)
@@ -343,75 +290,6 @@ t_token *create_token(char character, char next_char)
     return token;
 }
 
-int check_quotes(char *input)
-{
-    int i;
-    char quote;
-    
-    i = 0;
-    while(input[i])
-    {
-        if (input[i] == '\'' || input[i] == '"')
-        {
-            quote = input[i];
-            i++;
-            while(input[i] && input[i] != quote)
-                i++;
-            if (!input[i])
-            {
-                printf("syntax error near unexpected token quotes \n");
-                return 1;
-            }
-        }
-        i++;
-    }
-    return 0;
-}
-
-int check_syntax_errors(t_command *lexer)
-{
-    t_command *current = lexer;
-    if (!lexer)
-        return 0;
-    if (current->content->type == TOKEN_PIPE)
-    {
-        printf("syntax error near unexpected token %s\n", current->content->content);
-        return 1;
-    }
-    while (current)
-    {
-        if (current->content->type == TOKEN_INFILE || 
-            current->content->type == TOKEN_OUTFILE || current->content->type == TOKEN_HERE_DOC || 
-            current->content->type == TOKEN_APPEND)
-        {
-            if (!current->next || current->next->content->type != TOKEN_STRING)
-            {
-                printf("syntax error near unexpected token %s\n", current->content->content);
-                return 1;
-            }
-        }
-        else if (current->content->type == TOKEN_PIPE)
-        {
-            if (!current->next || current->next->content->type == TOKEN_PIPE)
-            {
-                printf("syntax error near unexpected token %s\n", current->content->content);
-                return 1;
-            }
-        }
-        current = current->next;
-    }
-    return (0);
-}
-
-int read_line(char **line)
-{
-    *line = readline("minishell> ");
-    if (!(*line))
-        return 1;
-    add_history(*line);
-    return 0;
-}
-
 void    process_tokens(char *line, t_command **lexer)
 {
     int i = 0;
@@ -441,7 +319,7 @@ void    process_tokens(char *line, t_command **lexer)
             if (token)
                 token->type = TOKEN_STRING;
         }
-        else
+        else if (line[i] == ' ' || line[i] == '\t')
             i++;
         if (token)
         {
@@ -454,6 +332,75 @@ void    process_tokens(char *line, t_command **lexer)
         token = create_token(line[i], line[i]);
         ft_lstadd_back(lexer, ft_lstnew(token));
     }
+}
+
+int check_syntax_errors(t_command *lexer)
+{
+    t_command *current = lexer;
+    if (!lexer)
+        return 0;
+    if (current->content->type == TOKEN_PIPE)
+    {
+        printf("syntax error near unexpected token %s\n", current->content->content);
+        return 1;
+    }
+    while (current)
+    {
+        if (current->content->type == TOKEN_INFILE || 
+            current->content->type == TOKEN_OUTFILE || current->content->type == TOKEN_HERE_DOC || 
+            current->content->type == TOKEN_APPEND)
+        {
+            if (!current->next || current->next->content->type != TOKEN_STRING)
+            {
+                printf("syntax error near unexpected token %s\n", current->content->content);
+                return 1;
+            }
+        }
+        else if (current->content->type == TOKEN_PIPE)
+        {
+            if (!current->next->content || !current->next || current->next->content->type == TOKEN_PIPE || current->next->content->type == TOKEN_EOF)
+            {
+                printf("syntax error near unexpected token %s\n", current->content->content);
+                return 1;
+            }
+        }
+        current = current->next;
+    }
+    return (0);
+}
+
+int check_quotes(char *input)
+{
+    int i;
+    char quote;
+
+    i = 0;
+    while(input[i])
+    {
+        if (input[i] == '\'' || input[i] == '"')
+        {
+            quote = input[i];
+            i++;
+            while(input[i] && input[i] != quote)
+                i++;
+            if (!input[i])
+            {
+                printf("syntax error near unexpected token quotes \n");
+                return 1;
+            }
+        }
+        i++;
+    }
+    return 0;
+}
+
+int read_line(char **line)
+{
+    *line = readline("minishell> ");
+    if (!(*line))
+        return 1;
+    add_history(*line);
+    return 0;
 }
 
 void display_data(t_data *data)
@@ -475,41 +422,91 @@ void display_data(t_data *data)
     }
 }
 
-int main()
+char *expand_env_vars_in_token(char *token, char **env)
 {
+    if (!token || token[0] != '$')
+        return token;
+
+    char *variable = token + 1;  // Skip the '$' character
+    char *value = NULL;
+    int i = 0;
+
+    while (env[i])
+    {
+        if (strncmp(env[i], variable, strlen(variable)) == 0)
+        {
+            value = strchr(env[i], '=') + 1;  // Skip the variable name and '=' character
+            break;
+        }
+        i++;
+    }
+
+    if (value)
+    {
+        char *expanded_token = malloc(strlen(value) + 1);
+        strcpy(expanded_token, value);
+        return expanded_token;
+    }
+
+    return token;  // Return the original token if no matching variable found
+}
+
+void expand_env_vars_in_tokens(t_command *lexer, char **env)
+{
+    while (lexer)
+    {
+        if (lexer->content->type == TOKEN_STRING)
+        {
+            char *expanded_token = expand_env_vars_in_token(lexer->content->content, env);
+            free(lexer->content->content);
+            lexer->content->content = expanded_token;
+        }
+        lexer = lexer->next;
+    }
+}
+
+t_data    *get_cmd_file(t_command *lexer, t_data *data, t_file *file, t_cmd *cmd)
+{
+    while(lexer)
+    {
+        if (lexer->content->type != 0 && lexer->content->type != 3 && lexer->content->type != 6)
+        {
+            ft_lstadd_back_file(&file, ft_lstnew_file(lexer->next->content->content, lexer->content->type));
+            lexer = lexer->next;
+        }
+        else if (lexer->content->type == 3)
+             ft_lstadd_back_cmd(&cmd, ft_lstnew_cmd(lexer->content->content));
+        if (lexer->content->type == 0 || lexer->content->type == 6)
+        {
+            ft_lstadd_back_data(&data, ft_lstnew_data(file, cmd));
+            file = NULL;
+            cmd = NULL;
+        }
+        lexer = lexer->next;
+    }
+    return (data);
+}
+
+int main(int ac, char **av, char **env)
+{
+    (void)ac;
+    (void)av;
+    (void)env;
     while(1)
     {
         char *line;
         if (read_line(&line))
             break;
-        if (check_quotes(line))
-            continue;
         t_command *lexer = NULL;
         process_tokens(line, &lexer);
-        if (check_syntax_errors(lexer))
+        if (check_syntax_errors(lexer) || check_quotes(line))
             continue;
         t_data *data = NULL;
         t_file *file = NULL;
         t_cmd *cmd = NULL;
-        while(lexer)
-        {
-            if (lexer->content->type != 0 && lexer->content->type != 3 && lexer->content->type != 6)
-            {
-                ft_lstadd_back_file(&file, ft_lstnew_file(lexer->next->content->content, lexer->content->type));
-                lexer = lexer->next;
-            }
-            else if (lexer->content->type == 3)
-                 ft_lstadd_back_cmd(&cmd, ft_lstnew_cmd(lexer->content->content));
-            if (lexer->content->type == 0 || lexer->content->type == 6)
-            {
-                ft_lstadd_back_data(&data, ft_lstnew_data(file, cmd));
-                file = NULL;
-                cmd = NULL;
-            }
-            lexer = lexer->next;
-        }
+        expand_env_vars_in_tokens(lexer, env);
+        data = get_cmd_file(lexer, data, file, cmd);
         t_command *lst = NULL;
-        ft_lstadd_back(&lst, ft_lstnew(create_token(' ', ' ')));
         lexer = lst;
         while(lexer)
         {

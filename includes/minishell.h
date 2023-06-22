@@ -6,7 +6,7 @@
 /*   By: ysabr <ysabr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:17:48 by ysabr             #+#    #+#             */
-/*   Updated: 2023/06/11 17:01:24 by ysabr            ###   ########.fr       */
+/*   Updated: 2023/06/13 18:47:50 by ysabr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,20 @@ void	ft_lstadd_back_data(t_data **lst, t_data *new);
 t_file	*ft_lstnew_file(char *file_name, int type);
 void	ft_lstadd_back_file(t_file **lst, t_file *new);
 t_cmd	*ft_lstnew_cmd(char *cmd);
-//void	ft_lstadd_back_data(t_data **lst, t_data *new);
 void	ft_lstadd_back(t_command **lst, t_command *new);
 void add_argument(t_command* cmd, char* arg);
 t_command	*ft_lstnew(t_token *content);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-char	**ft_split(char const *s, char c);
-void	*ft_calloc(size_t count, size_t size);
-void	ft_bzero(void *s, size_t n);
-int ft_strcmp(const char *s1, const char *s2);
-char	*ft_strdup(const char *s1);
-int check_syntax(char **tokens);
-void handle_input_line(char *line, t_command **lexer, t_token **token);
-void handle_input_chars(char *line, int *i, t_command **lexer, t_token **token);
-void handle_lexer(t_command **lexer, t_data **data, t_file **file, t_cmd **cmd);
+size_t  ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char    **ft_split(char const *s, char c);
+void    *ft_calloc(size_t count, size_t size);
+void    ft_bzero(void *s, size_t n);
+int     ft_strcmp(const char *s1, const char *s2);
+char    *ft_strdup(const char *s1);
+int     check_syntax(char **tokens);
+void    handle_input_line(char *line, t_command **lexer, t_token **token);
+void    handle_input_chars(char *line, int *i, t_command **lexer, t_token **token);
+void    handle_lexer(t_command **lexer, t_data **data, t_file **file, t_cmd **cmd);
 #endif

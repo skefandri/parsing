@@ -6,7 +6,7 @@
 /*   By: ysabr <ysabr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:35:49 by ysabr             #+#    #+#             */
-/*   Updated: 2023/06/09 11:36:49 by ysabr            ###   ########.fr       */
+/*   Updated: 2023/06/13 11:58:20 by ysabr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int check_syntax_errors(t_command *lexer)
         }
         else if (current->content->type == TOKEN_PIPE)
         {
-            if (!current->next || current->next->content->type == TOKEN_PIPE)
+            if (!current->next->content || !current->next || current->next->content->type == TOKEN_PIPE || current->next->content->type == TOKEN_EOF)
             {
                 printf("syntax error near unexpected token %s\n", current->content->content);
                 return 1;
