@@ -3,10 +3,10 @@
 #include <stdlib.h>
 
 char *get_env_val(const char *key, char **env);
-char *replace_variables(const char *str, char **env);
-char *get_double_quoted_variable(const char *str, char **env);
+char *replace_variables(char *str, char **env);
+char *get_double_quoted_variable( char *str, char **env);
 char *get_single_quoted_variable(const char *str);
-char *ft_strjoin(const char *s1, const char *s2);
+char    *ft_strjoin(char *s1, char *s2);
 
 char *get_env_val(const char *key, char **env)
 {
@@ -17,17 +17,19 @@ char *get_env_val(const char *key, char **env)
     {
         if (strncmp(key, env[i], len) == 0 && env[i][len] == '=')
         {
+            printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-I am here->>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
             return &env[i][len + 1];
         }
     }
     return NULL;
 }
 
-char *replace_variables(const char *str, char **env)
+char *replace_variables(char *str, char **env)
 {
     size_t len = strlen(str);
-    char *newStr = malloc((2 * len + 1) * sizeof(char));
-    if (newStr == NULL) {
+    char *newStr = malloc((len + 1) * sizeof(char));
+    if (newStr == NULL)
+    {
         fprintf(stderr, "Memory allocation failed.\n");
         return NULL;
     }
@@ -52,7 +54,6 @@ char *replace_variables(const char *str, char **env)
             newStr[j++] = str[i++];
         else if (str[i] == '$' && !inside_single_quote)
         {
-            printf("hello\n");
             if (str[i+1] == '$')
             {
                 newStr[j++] = str[i++];
@@ -62,7 +63,7 @@ char *replace_variables(const char *str, char **env)
             {
                 newStr[j++] = str[i++];
                 newStr[j++] = str[i++];
-                while (str[i] != '.' && str[i] != '$' && str[i] != '\'' && str[i] != '"' && str[i])
+                while (str[i] != '$' && str[i])
                     newStr[j++] = str[i++];
             }
             else if (str[i+1] == '?')
@@ -71,33 +72,39 @@ char *replace_variables(const char *str, char **env)
                 i += 2;
                 while (str[i] != '.' && str[i] != '$' && str[i] != '\'' && str[i] != '"' && str[i])
                     newStr[j++] = str[i++];
+                //newStr = strdup(&str[i]);
             }
             else
             {
                 i++;
-                printf("-------.......???.-------======>>>>>%s\n",str);
+                char *tmp;
+                int k = 0;
+                while (str[i + k] != '.' && str[i + k] != '$' && str[i + k] != '\'' && str[i + k] != '"' && str[i + k])
+                    k++;
+                tmp = malloc(k + 1);
+                k = 0;
                 while (str[i] != '.' && str[i] != '$' && str[i] != '\'' && str[i] != '"' && str[i])
-                    newStr[j++] = str[i++];
-                newStr[j] = '\0';
-                printf("-------.==============-------======>>>>>%s\n",newStr);
-                printf("------->%s\n", newStr);
-                char *envVal = get_env_val(newStr, env);
-                printf("======>>>>>%s\n", envVal);
-                printf("8888---=====>>>>%s\n", envVal);
+                    tmp[k++] = str[i++];
+                tmp[k] = 0;
+                char *envVal = get_env_val(tmp, env);
+                free(tmp);
+                tmp = NULL;
                 if (envVal != NULL && (inside_double_quote || !inside_double_quote))
                 {
-                    char *tmpStr = strdup(envVal);
-                    if (tmpStr == NULL)
+                    printf("i : %d\n", i);
+                    if (envVal == NULL)
                     {
                         fprintf(stderr, "Memory allocation failed.\n");
                         free(newStr);
                         return NULL;
                     }
-                    free(newStr);
-                    newStr = tmpStr;
-                    printf("------>>>>>%s\n", newStr);
+                    while (*envVal)
+                    {
+                        newStr[j++] = *envVal;
+                        envVal++;
+                    }
+                    printf("------>>jh>>>%s\n", newStr);
                     j = strlen(newStr);
-                    free(newStr);
                 }
                 else if (envVal != NULL && (!inside_double_quote || inside_double_quote))
                 {
@@ -106,28 +113,46 @@ char *replace_variables(const char *str, char **env)
             }
         }
         else
+        {
             newStr[j++] = str[i++];
+        }
     }
-    newStr[j] = '\0';
-
+    newStr[j] = 0;
+    printf("NEWSTR----->%s\n", newStr);
     return newStr;
 }
 
+// int ft_strlen(char *s)
+// {
+//     if (!s)
+//         return 0;
+//     int  i = 0;
+//     while(s[i])
+//         i++;
+//     return i;
+// }
 
-char *ft_strjoin(const char *s1, const char *s2)
+char    *ft_strjoin(char *s1, char *s2)
 {
-    size_t len1 = strlen(s1);
-    size_t len2 = strlen(s2);
-    char *result = malloc((len1 + len2 + 1) * sizeof(char));
-    if (result == NULL) {
-        fprintf(stderr, "Memory allocation failed.\n");
-        return NULL;
-    }
+    char    *str;
+    int        i;
+    int        j;
+    int        k;
 
-    strcpy(result, s1);
-    strcat(result, s2);
-
-    return result;
+    i = 0;
+    j = 0;
+    k = 0;
+    if (s1 == NULL || s2 == NULL)
+        return (NULL);
+    str = (char *)malloc(sizeof(char) * (strlen(s1) + strlen(s2) + 1));
+    if (!str)
+        return (NULL);
+    while (s1[i])
+        str[k++] = s1[i++];
+    while (s2[j])
+        str[k++] = s2[j++];
+    str[k] = '\0';
+    return (str);
 }
 
 int main(int argc, char **argv, char **env)
@@ -135,7 +160,7 @@ int main(int argc, char **argv, char **env)
     (void)argc;
     (void)argv;
 
-    char *str = "$USER $PWD";
+    char *str = "hello$USER.jhgf";
     char *newStr = replace_variables(str, env);
     if (newStr == NULL) {
         fprintf(stderr, "Error occurred during variable replacement.\n");

@@ -6,7 +6,7 @@
 /*   By: ysabr <ysabr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:17:48 by ysabr             #+#    #+#             */
-/*   Updated: 2023/06/13 18:47:50 by ysabr            ###   ########.fr       */
+/*   Updated: 2023/06/23 23:08:57 by ysabr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ typedef struct s_token
     } type;
     char *content;
 } t_token;
+
+typedef struct s_env
+{
+    char    *str;
+    char    *env;
+    char    *value;
+    struct s_env *next;
+} t_env;
 
 typedef struct s_command
 {
